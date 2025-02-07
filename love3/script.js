@@ -1,145 +1,202 @@
-import * as THREE from "three";
-import { OrbitControls as e } from "three/addons/controls/OrbitControls.js";
-import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
-import { SUBTRACTION as t, Brush as n, Evaluator as r } from "three-bvh-csg";
+
+"use strict";
 
 !(function () {
-  "use strict";
-  function a() {
-    ((E = new THREE.Scene()).environment = w),
-      (l = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: !0,
-        alpha: !0
-      })).setPixelRatio(window.devicePixelRatio),
-      l.setSize(window.innerWidth, window.innerHeight),
-      (l.useLegacyLights = !1),
-      (s = new THREE.PerspectiveCamera(
-        35,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        3 * H
-      )).position.set(0, 0, H * Math.sqrt(2)),
-      s.lookAt(0, 0, 0);
-    const a = new THREE.AmbientLight(16777215, 0.3);
-    E.add(a);
-    const u = new THREE.DirectionalLight(16777215, 1);
-    u.position.set(0, 2 * H, 0),
-      E.add(u),
-      (E.fog = new THREE.FogExp2(16101802, 0.005)),
-      (m = new THREE.MeshStandardMaterial({
-        metalness: 1,
-        roughness: 0
-      })),
-      (p = []),
-      (c = c = new THREE.CapsuleGeometry(3, 6, 5, 20)).rotateZ(-Math.PI / 3.78),
-      c.translate(0, -1, 0),
-      c.scale(1, 1, 0.85),
-      c.scale(0.24, 0.24, 0.24),
-      (c = (function (e) {
-        let a,
-          o,
-          i,
-          s,
-          E = e.clone(),
-          l = new THREE.MeshBasicMaterial({}),
-          d = 2 * c.parameters.radius,
-          m = 2 * c.parameters.height,
-          h = new THREE.BoxGeometry(d, m, d);
-        return (
-          h.translate(-d / 2, 0, 0),
-          (a = new r()),
-          (o = new n(E, l)),
-          (i = new n(h, l)),
-          (a.useGroups = !0),
-          (s = a.evaluate(o, i, t, s)).geometry
-        );
-      })(c)),
-      p.push(c),
-      (c = c.clone()).rotateY(Math.PI),
-      p.push(c),
-      (c = BufferGeometryUtils.mergeGeometries(p)),
-      (c = BufferGeometryUtils.mergeVertices(c)).computeVertexNormals();
-    const M = new THREE.Color(),
-      T = new THREE.Matrix4();
-    h = new THREE.InstancedMesh(c, m, R);
-    for (let e = 0; e < R; e++)
-      g(T),
-        h.setMatrixAt(e, T),
-        h.setColorAt(
-          e,
-          M.setHSL(
-            Math.abs(THREE.MathUtils.randInt(9750, 1e4) / 1e4),
-            1,
-            THREE.MathUtils.randInt(450, 700) / 1e3
-          )
-        );
-    E.add(h);
-    (c = new THREE.SphereGeometry(0.3, 20, 10)),
-      (m = m.clone()).color.set("deeppink"),
-      (m.roughness = 0.3),
-      (h = new THREE.InstancedMesh(c, m, 220));
-    for (let e = 0; e < 220; e++) g(T), h.setMatrixAt(e, T);
-    E.add(h),
-      ((d = new e(s, l.domElement)).autoRotate = !0),
-      (d.enableDamping = !0),
-      (d.enablePan = !1),
-      (d.minDistance = 0.1),
-      (d.maxDistance = H * Math.sqrt(2)),
-      (d.minPolarAngle = 0),
-      (d.maxPolarAngle = Math.PI / 2),
-      d.target.set(0, 0, 0),
-      d.update(),
-      window.addEventListener("resize", o),
-      i();
-  }
-  function o() {
-    (s.aspect = window.innerWidth / window.innerHeight),
-      s.updateProjectionMatrix(),
-      l.setSize(window.innerWidth, window.innerHeight);
-  }
-  function i() {
-    requestAnimationFrame(i), d.update(), l.render(E, s);
-  }
-  let s,
-    E,
-    l,
-    d,
-    c,
-    m,
-    h,
-    w,
-    u,
-    p = [];
-  const R = 700,
-    H = 50,
-    g = (function () {
-      const e = new THREE.Vector3(),
-        t = new THREE.Euler(),
-        n = new THREE.Quaternion(),
-        r = new THREE.Vector3();
-      return function (a) {
-        (e.x = (2 * Math.random() - 1) * H),
-          (e.y = (2 * Math.random() - 1) * H),
-          (e.z = (2 * Math.random() - 1) * H),
-          (t.x = 0),
-          (t.z = 2 * Math.random() * Math.PI),
-          (t.y = 2 * Math.random() * Math.PI),
-          n.setFromEuler(t),
-          r.set(1, 1, 1),
-          a.compose(e, n, r);
-      };
+  function t() {
+    !(function () {
+      var t, g;
+      if (
+        ((o = l / 2),
+        (a = s / 2),
+        (n = c.create()),
+        (e = n.world),
+        (r = d.create({
+          element: document.body,
+          engine: n,
+          options: {
+            width: l,
+            height: s,
+            wireframes: !1,
+            background: "transparent",
+            pixelRatio: 1
+          }
+        })),
+        (i = u.create()),
+        u.run(i, n),
+        (n.gravity.scale = 0),
+        (n.gravity.x = 0),
+        (n.gravity.y = 0),
+        "undefined" != typeof fetch)
+      ) {
+        (t = function (t, e) {
+          return Array.prototype.slice.call(t.querySelectorAll(e));
+        }),
+          (g = function (t) {
+            return fetch(t)
+              .then(function (t) {
+                return t.text();
+              })
+              .then(function (t) {
+                return new window.DOMParser().parseFromString(
+                  t,
+                  "image/svg+xml"
+                );
+              });
+          })(svg_terrain).then(function (n) {
+            var r = t(n, "path"),
+              i = r.map(function (t) {
+                return v.pathToVertices(t, 30);
+              }),
+              l = y.fromVertices(
+                256,
+                200,
+                i,
+                {
+                  isStatic: !0,
+                  render: {
+                    fillStyle: "transparent",
+                    strokeStyle: "transparent",
+                    lineWidth: 1
+                  }
+                },
+                !0
+              );
+            h.add(e, l), (o = l.position.x), (a = l.position.y);
+          });
+        let n = null,
+          r = null;
+        g(svg_heart).then(function (e) {
+          n ||
+            ((r = t(e, "path").map(function (t) {
+              return v.pathToVertices(t, 50);
+            })),
+            (n = y.fromVertices(
+              o,
+              1.5 * a,
+              r,
+              {
+                restitution: 0,
+                friction: 0,
+                frictionStatic: 0,
+                frictionAir: 0,
+                mass: 20,
+                render: {
+                  lineWidth: 2
+                }
+              },
+              !0
+            )),
+            M.scale(n, 0.2, 0.2));
+        });
+        let i = function () {
+          let t = structuredClone(n);
+          (t.id = f.nextId()),
+            (t.position.x = o),
+            (t.position.y = 1.5 * a),
+            S.push(S.shift());
+          let r = S[0];
+          (t.render.fillStyle = r),
+            (t.render.strokeStyle = r),
+            t.parts.forEach(function (e, n) {
+              (t.parts[n].render.fillStyle = r),
+                (t.parts[n].render.strokeStyle = r);
+            }),
+            M.setAngle(t, Math.round(360 * Math.random()), !1),
+            M.setVelocity(t, {
+              x: f.random(-5, 5),
+              y: f.random(-5, -1)
+            }),
+            h.add(e, t);
+        };
+        setTimeout(function () {
+          let t = 0,
+            e = setInterval(() => {
+              i(), 2 == t && (clearInterval(e), (n = null), (r = null)), t++;
+            }, 780);
+        }, 220);
+      } else f.warn("Fetch is not available. Could not load SVG.");
+      let k = m.create(r.canvas),
+        x = p.create(n, {
+          mouse: k,
+          constraint: {
+            stiffness: 0.2,
+            render: {
+              visible: !1
+            }
+          }
+        });
+      h.add(e, x),
+        (r.mouse = k),
+        d.lookAt(r, {
+          min: {
+            x: 0,
+            y: 0
+          },
+          max: {
+            x: l,
+            y: s
+          }
+        }),
+        d.run(r);
     })();
-  (u = new THREE.TextureLoader()).setCrossOrigin(""),
-    u.load(
-      "https://happy358.github.io/Images/HDR/kloofendal_48d_partly_cloudy_puresky_2k.jpg",
-      function (e) {
-        (e.colorSpace = THREE.SRGBColorSpace),
-          (e.minFilter = THREE.NearestFilter),
-          (e.generateMipmaps = !1),
-          (e.mapping = THREE.EquirectangularReflectionMapping),
-          (w = e),
-          a();
-      }
-    );
+  }
+  let e,
+    n,
+    r,
+    i,
+    o,
+    a,
+    l = 512,
+    s = 512,
+    c = (Matter.World, Matter.Engine),
+    d = Matter.Render,
+    u = Matter.Runner,
+    f = (Matter.Composites, Matter.Common),
+    p = Matter.MouseConstraint,
+    m = Matter.Mouse,
+    h = Matter.Composite,
+    y = (Matter.Vertices, Matter.Bodies),
+    M = Matter.Body,
+    v = (Matter.Events, Matter.Query, Matter.Svg),
+    g = [
+      "pink",
+      "deeppink",
+      "deeppink",
+      "hotpink",
+      "hotpink",
+      "lightpink",
+      "magenta",
+      "orchid"
+    ],
+    S = ["mediumvioletred", "crimson", "salmon"];
+  (window.onload = () => {
+    t();
+  }),
+    setTimeout(function () {
+      let t = 0,
+        n = setInterval(() => {
+          !(function () {
+            let t = f.choose(g);
+            const n = y.circle(o, a, 25, {
+              restitution: 0,
+              friction: 0,
+              frictionStatic: 0,
+              frictionAir: 0,
+              mass: 10,
+              render: {
+                fillStyle: t,
+                strokeStyle: t,
+                lineWidth: 0
+              }
+            });
+            M.setVelocity(n, {
+              x: f.random(-1, 1),
+              y: f.random(-1, 1)
+            }),
+              h.add(e, n);
+          })(),
+            60 == t && clearInterval(n),
+            t++;
+        }, 100);
+    }, 2e3);
 })();

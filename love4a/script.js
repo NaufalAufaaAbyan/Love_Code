@@ -10,7 +10,7 @@ class Firework {
         this.y = y;
         this.exploded = false;
         this.particles = [];
-        this.vy = -6 + Math.random() * -2;
+        this.vy = -7 + Math.random() * -3;
         this.vx = (Math.random() - 0.5) * 2;
         this.gravity = 0.05;
         this.trail = [];
@@ -35,9 +35,8 @@ class Firework {
 
     explode() {
         this.exploded = true;
-
-        for (let i = 0; i < 100; i++) {
-            let angle = (i / 100) * Math.PI * 2;
+        for (let i = 0; i < 150; i++) { // Lebih banyak partikel untuk love
+            let angle = (i / 150) * Math.PI * 2;
             let speed = Math.random() * 2 + 1;
             let { vx, vy } = getHeartVelocity(angle, speed);
             this.particles.push(new Particle(this.x, this.y, vx, vy, getRandomColor()));
@@ -72,7 +71,7 @@ class Particle {
         this.vy = vy;
         this.alpha = 1;
         this.color = color;
-        this.fade = Math.random() * 0.02 + 0.01;
+        this.fade = Math.random() * 0.015 + 0.005;
     }
 
     update() {
@@ -99,20 +98,20 @@ function getRandomColor() {
 }
 
 function getHeartVelocity(angle, speed) {
-    let t = angle;
+    let t = angle * 2;
     let x = 16 * Math.pow(Math.sin(t), 3);
     let y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
 
-    return { vx: x * speed * 0.1, vy: y * speed * 0.1 };
+    return { vx: x * speed * 0.08, vy: y * speed * 0.08 };
 }
 
 let fireworks = [];
 
 function animate() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    if (Math.random() < 0.015) {
+    if (Math.random() < 0.02) {
         fireworks.push(new Firework(Math.random() * canvas.width, canvas.height));
     }
 

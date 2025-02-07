@@ -1,0 +1,44 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000; /* Latar belakang hitam */
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+#pinkboard {
+  width: 100%;
+  height: 100%;
+}
+
+#loveYouText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-family: 'Arial', sans-serif;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  opacity: 0; /* Awalnya teks tidak terlihat */
+  animation: floatText 5s infinite ease-in-out;
+}
+
+@keyframes floatText {
+  0%, 100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+  }
+}
