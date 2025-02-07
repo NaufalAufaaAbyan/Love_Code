@@ -49,6 +49,15 @@ Animasi kembang api hati dengan lebih banyak partikel.
   - [script.js](love4a/script.js)
   - [style.css](love4a/style.css)
 
+### Love5
+
+Animasi Love Partikel.
+
+- **File:**
+  - [index.html](love5/index.html)
+  - [script.js](love5/script.js)
+  - [style.css](love5/style.css)
+
 ### Python Code Love
 
 Berbagai visualisasi dan animasi bertema cinta menggunakan Python.
